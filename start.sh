@@ -27,12 +27,26 @@ url_base = " > $CONFIG
     crudini --set "$CONFIG" "manage" "library" "/data/films"
     crudini --set "$CONFIG" "sabnzbd" "api_key" ""
     crudini --set "$CONFIG" "sabnzbd" "host" "localhost:8080"
+    crudini --set "$CONFIG" "deluge" "enabled" "0"
+    crudini --set "$CONFIG" "deluge" "label" "films"
+    crudini --set "$CONFIG" "deluge" "password" ""
+    crudini --set "$CONFIG" "deluge" "username" ""
+    crudini --set "$CONFIG" "deluge" "host" "localhost:58846"
 fi
 
 if [ ! -z "$SABNZBD_ENV_API_KEY" ]; then
     echo "SABNZBD API Key: $SABNZBD_ENV_API_KEY"
     crudini --set --existing "$CONFIG" "sabnzbd" "api_key" "$SABNZBD_ENV_API_KEY"
     crudini --set --existing "$CONFIG" "sabnzbd" "host" "sabnzbd:8080"
+fi
+
+if [ ! -z "$DELUGE_ENV_DELUGE_USER" ]; then
+    if [ ! -z "$DELUGE_ENV_DELUGE_PASSWORD" ]; then
+        echo "Deluge User: $DELUGE_ENV_DELUGE_USER"
+        crudini --set --existing "$CONFIG" "deluge" "username" "$DELUGE_ENV_DELUGE_USER"
+        crudini --set --existing "$CONFIG" "deluge" "password" "$DELUGE_ENV_DELUGE_PASSWORD"
+        crudini --set --existing "$CONFIG" "deluge" "host" "deluge:58846"
+    fi
 fi
 
 echo setting url base from env
